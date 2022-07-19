@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "dgSpecHash": "3cNERNydrRs8eWZL8YOA+8fiaVr60j/blwIDal5NxSaKkJjD7Q7dYQFQn9OTvf9Xp/BpDUMpv+uTMSuvMWSUlg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Matyi\\Desktop\\Restaurant\\Restaurant\\Restaurant.Common\\Restaurant.Common.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Matyi\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
+    "C:\\Users\\Matyi\\.nuget\\packages\\microsoft.aspnetcore.http.abstractions\\2.2.0\\microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512",
+    "C:\\Users\\Matyi\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.2.0\\microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512",
+    "C:\\Users\\Matyi\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\Matyi\\.nuget\\packages\\microsoft.extensions.configuration\\2.0.0\\microsoft.extensions.configuration.2.0.0.nupkg.sha512",
+    "C:\\Users\\Matyi\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\2.0.0\\microsoft.extensions.configuration.abstractions.2.0.0.nupkg.sha512",
+    "C:\\Users\\Matyi\\.nuget\\packages\\microsoft.extensions.configuration.binder\\2.0.0\\microsoft.extensions.configuration.binder.2.0.0.nupkg.sha512",
+    "C:\\Users\\Matyi\\.nuget\\packages\\microsoft.extensions.dependencymodel\\3.0.0\\microsoft.extensions.dependencymodel.3.0.0.nupkg.sha512",
+    "C:\\Users\\Matyi\\.nuget\\packages\\microsoft.extensions.primitives\\2.2.0\\microsoft.extensions.primitives.2.2.0.nupkg.sha512",
+    "C:\\Users\\Matyi\\.nuget\\packages\\serilog\\2.11.1-dev-01397\\serilog.2.11.1-dev-01397.nupkg.sha512",
+    "C:\\Users\\Matyi\\.nuget\\packages\\serilog.settings.configuration\\3.3.1-dev-00337\\serilog.settings.configuration.3.3.1-dev-00337.nupkg.sha512",
+    "C:\\Users\\Matyi\\.nuget\\packages\\system.memory\\4.5.1\\system.memory.4.5.1.nupkg.sha512",
+    "C:\\Users\\Matyi\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.1\\system.runtime.compilerservices.unsafe.4.5.1.nupkg.sha512",
+    "C:\\Users\\Matyi\\.nuget\\packages\\system.text.encodings.web\\4.5.0\\system.text.encodings.web.4.5.0.nupkg.sha512",
+    "C:\\Users\\Matyi\\.nuget\\packages\\system.text.json\\4.6.0\\system.text.json.4.6.0.nupkg.sha512"
+  ],
+  "logs": []
+}
