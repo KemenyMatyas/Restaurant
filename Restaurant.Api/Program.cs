@@ -1,11 +1,15 @@
+using Restaurant.Api.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+IoCSetup.Init(builder.Services, builder.Configuration, builder.Logging);
 
 var app = builder.Build();
 

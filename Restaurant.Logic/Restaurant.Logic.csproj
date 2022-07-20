@@ -6,4 +6,15 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Restaurant.Common\Restaurant.Common.csproj" />
+      <ProjectReference Include="..\Restaurant.DataAccess\Restaurant.DataAccess.csproj" />
+      <ProjectReference Include="..\Restaurant.Data\Restaurant.Data.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.7" />
+    </ItemGroup>
+
 </Project>
