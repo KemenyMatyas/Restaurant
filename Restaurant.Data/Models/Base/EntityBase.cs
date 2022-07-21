@@ -8,4 +8,6 @@ public abstract class EntityBase
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Key]
     public Guid Guid { get; set; }
+
+    public bool Active { get; set; }
 }
