@@ -12,8 +12,8 @@ using Restaurant.DataAccess;
 namespace Restaurant.DataAccess.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    [Migration("20220720125622_NewMigration")]
-    partial class NewMigration
+    [Migration("20220721113900_roleToEnum")]
+    partial class roleToEnum
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,21 +23,6 @@ namespace Restaurant.DataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("Restaurant.Data.Models.Role", b =>
-                {
-                    b.Property<Guid>("Guid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Guid");
-
-                    b.ToTable("Roles");
-                });
 
             modelBuilder.Entity("Restaurant.Data.Models.User", b =>
                 {
@@ -57,25 +42,12 @@ namespace Restaurant.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("UserRoleGuid")
-                        .HasColumnType("uuid");
+                    b.Property<int>("UserRole")
+                        .HasColumnType("integer");
 
                     b.HasKey("Guid");
 
-                    b.HasIndex("UserRoleGuid");
-
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Restaurant.Data.Models.User", b =>
-                {
-                    b.HasOne("Restaurant.Data.Models.Role", "UserRole")
-                        .WithMany()
-                        .HasForeignKey("UserRoleGuid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserRole");
                 });
 #pragma warning restore 612, 618
         }

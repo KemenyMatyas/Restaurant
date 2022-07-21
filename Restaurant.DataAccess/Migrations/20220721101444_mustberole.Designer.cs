@@ -12,8 +12,8 @@ using Restaurant.DataAccess;
 namespace Restaurant.DataAccess.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    [Migration("20220721095617_roleCanBeNull")]
-    partial class roleCanBeNull
+    [Migration("20220721101444_mustberole")]
+    partial class mustberole
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,6 +37,18 @@ namespace Restaurant.DataAccess.Migrations
                     b.HasKey("Guid");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Guid = new Guid("912334a5-f27c-4620-be49-fb992fc89099"),
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Guid = new Guid("baaf5e12-646e-4d2b-aca8-12ac5894eb52"),
+                            Name = "User"
+                        });
                 });
 
             modelBuilder.Entity("Restaurant.Data.Models.User", b =>
@@ -57,7 +69,7 @@ namespace Restaurant.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("UserRoleGuid")
+                    b.Property<Guid>("UserRoleGuid")
                         .HasColumnType("uuid");
 
                     b.HasKey("Guid");
@@ -71,7 +83,9 @@ namespace Restaurant.DataAccess.Migrations
                 {
                     b.HasOne("Restaurant.Data.Models.Role", "UserRole")
                         .WithMany()
-                        .HasForeignKey("UserRoleGuid");
+                        .HasForeignKey("UserRoleGuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("UserRole");
                 });

@@ -22,21 +22,6 @@ namespace Restaurant.DataAccess.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Restaurant.Data.Models.Role", b =>
-                {
-                    b.Property<Guid>("Guid")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Guid");
-
-                    b.ToTable("Roles");
-                });
-
             modelBuilder.Entity("Restaurant.Data.Models.User", b =>
                 {
                     b.Property<Guid>("Guid")
@@ -55,23 +40,12 @@ namespace Restaurant.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("UserRoleGuid")
-                        .HasColumnType("uuid");
+                    b.Property<int>("UserRole")
+                        .HasColumnType("integer");
 
                     b.HasKey("Guid");
 
-                    b.HasIndex("UserRoleGuid");
-
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Restaurant.Data.Models.User", b =>
-                {
-                    b.HasOne("Restaurant.Data.Models.Role", "UserRole")
-                        .WithMany()
-                        .HasForeignKey("UserRoleGuid");
-
-                    b.Navigation("UserRole");
                 });
 #pragma warning restore 612, 618
         }

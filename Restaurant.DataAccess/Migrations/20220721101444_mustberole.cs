@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Restaurant.DataAccess.Migrations
 {
-    public partial class NewMigration : Migration
+    public partial class mustberole : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,6 +40,15 @@ namespace Restaurant.DataAccess.Migrations
                         principalTable: "Roles",
                         principalColumn: "Guid",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "Guid", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("912334a5-f27c-4620-be49-fb992fc89099"), "Admin" },
+                    { new Guid("baaf5e12-646e-4d2b-aca8-12ac5894eb52"), "User" }
                 });
 
             migrationBuilder.CreateIndex(

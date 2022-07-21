@@ -3,6 +3,7 @@
 using AutoMapper;
 using Common.Exceptions;
 using Common.Logging;
+using Data.Enums;
 using Data.Models;
 using DataAccess;
 using FTBHungary.Data.Dtos;
@@ -28,7 +29,7 @@ public class UserService : IUserService
         {
             registerUserDtoDto.Password = HashPassword(registerUserDtoDto.Password);
             var user = _mapper.Map<User>(registerUserDtoDto);
-            user.UserRole = (await _dbContext.Roles.FindAsync(Guid.Parse("976c7e2b-9f46-4d0d-bdb8-7330358aabde")))!;
+            user.UserRole = Role.User;
             var userNameCheck = await _dbContext.Users
                 .Where(x => x.UserName == user.UserName).SingleOrDefaultAsync();
             if (userNameCheck != null)
@@ -64,7 +65,7 @@ public class UserService : IUserService
     {
         try
         {
-            var user = await _dbContext.Users.Include(i => i.UserRole)
+            var user = await _dbContext.Users
                 .Where(w =>w.UserName == loginUserDto.UserName).SingleOrDefaultAsync();
             if (user == null)
             {
