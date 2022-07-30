@@ -1,21 +1,23 @@
-﻿namespace FTBHungary.Api.Controllers;
+﻿namespace Restaurant.Api.Controllers;
 
-using Common.Dtos;
-using Data.Dtos;
+using BaseControllers;
+using Common.Infrastructure;
+using FTBHungary.Data.Dtos;
+using global::Common.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant.Logic.IServices;
 
-public class UserController : ControllerBase
+public class UserController : BaseController
 {
     private readonly IUserService _userService;
 
-    public UserController( IUserService userService)
+    protected UserController(AppContext appContext, IUserService userService) : base(appContext)
     {
         _userService = userService;
     }
 
     [HttpPost("register")]
-    public async Task<ApiResponseDto<bool>> Register(RegisterUserDto userDto)
+    public async Task<ApiResponseDto<bool>> Register([FromBody]RegisterUserDto userDto)
     {
 
         var response = new ApiResponseDto<bool>();
@@ -39,7 +41,7 @@ public class UserController : ControllerBase
     }
     
     [HttpPost("login")]
-    public async Task<ApiResponseDto<string>> Login(LoginUserDto userDto)
+    public async Task<ApiResponseDto<string>> Login([FromBody]LoginUserDto userDto)
     {
         var response = new ApiResponseDto<string>();
         try
@@ -67,4 +69,6 @@ public class UserController : ControllerBase
 
         return response;
     }
+
+
 }

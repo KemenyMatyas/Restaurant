@@ -3,7 +3,7 @@ namespace Restaurant.Common.Infrastructure;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 
-public class AppContext : IAppContext
+public sealed class AppContext : IAppContext
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     
@@ -49,7 +49,7 @@ public class AppContext : IAppContext
 
 
 
-    public virtual bool IsAuthenticated
+    public bool IsAuthenticated
     {
         get
         {
