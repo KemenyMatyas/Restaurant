@@ -1,6 +1,6 @@
 ﻿namespace Restaurant.Logic.IServices;
 
-using FTBHungary.Data.Dtos;
+using Data.Dtos;
 
 public interface IUserService
 {

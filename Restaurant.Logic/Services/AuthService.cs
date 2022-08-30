@@ -24,7 +24,7 @@ public class AuthService
         
         var claims = new List<Claim>
         {
-            new(ClaimTypes.Name, user.UserName),
+            new(ClaimTypes.Name, user.Email),
             new(ClaimTypes.Role, user.UserRole.ToString()),
             new(ClaimTypes.UserData, user.Guid.ToString())
         };

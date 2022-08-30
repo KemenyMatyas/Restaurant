@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 [Route("api/[controller]")]
 public class BaseController : ControllerBase
 {
-    private readonly AppContext _appContext;
+    private readonly IAppContext _appContext;
     
-    protected BaseController(AppContext appContext)
+    public BaseController(IAppContext appContext)
     {
         _appContext = appContext;
     }

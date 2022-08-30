@@ -2,8 +2,7 @@
 
 using BaseControllers;
 using Common.Infrastructure;
-using FTBHungary.Data.Dtos;
-using global::Common.Dtos;
+using Data.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant.Logic.IServices;
 
@@ -11,7 +10,7 @@ public class UserController : BaseController
 {
     private readonly IUserService _userService;
 
-    protected UserController(AppContext appContext, IUserService userService) : base(appContext)
+    public UserController(IAppContext appContext, IUserService userService) : base(appContext)
     {
         _userService = userService;
     }

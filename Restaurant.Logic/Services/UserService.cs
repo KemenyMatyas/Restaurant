@@ -3,10 +3,10 @@
 using AutoMapper;
 using Common.Exceptions;
 using Common.Logging;
+using Data.Dtos;
 using Data.Enums;
 using Data.Models;
 using DataAccess;
-using FTBHungary.Data.Dtos;
 using Microsoft.EntityFrameworkCore;
 using IServices;
 using static BCrypt.Net.BCrypt;
@@ -29,9 +29,12 @@ public class UserService : IUserService
         {
             registerUserDtoDto.Password = HashPassword(registerUserDtoDto.Password);
             var user = _mapper.Map<User>(registerUserDtoDto);
+            
+            // set role as user
             user.UserRole = Role.User;
+            
             var userNameCheck = await _dbContext.Users
-                .Where(x => x.UserName == user.UserName).SingleOrDefaultAsync();
+                .Where(x => x.Email == user.Email).SingleOrDefaultAsync();
             if (userNameCheck != null)
             {
                 throw new Exception("Felhasználónév foglalt");
@@ -39,8 +42,8 @@ public class UserService : IUserService
 
             await _dbContext.Users.AddAsync(user);
             await _dbContext.SaveChangesAsync();
-            LogHelper.Security.ForContext<UserService>().Warning($"A felhasználó regisztrált a rendszerbe.({user.Guid}:{user.UserName})");
-            LogHelper.Activity.ForContext<UserService>().Information($"A felhasználó regisztrált a rendszerbe.({user.Guid}:{user.UserName})");
+            LogHelper.Security.ForContext<UserService>().Warning($"A felhasználó regisztrált a rendszerbe.({user.Guid}:{user.Email})");
+            LogHelper.Activity.ForContext<UserService>().Information($"A felhasználó regisztrált a rendszerbe.({user.Guid}:{user.Email})");
         }
         catch (BusinessException ex)
         {
@@ -66,7 +69,7 @@ public class UserService : IUserService
         try
         {
             var user = await _dbContext.Users
-                .Where(w =>w.UserName == loginUserDto.UserName).SingleOrDefaultAsync();
+                .Where(w =>w.Email == loginUserDto.UserName).SingleOrDefaultAsync();
             if (user == null)
             {
                 LogHelper.Security.ForContext<UserService>()
@@ -80,16 +83,16 @@ public class UserService : IUserService
             if (!valid)
             {
                 LogHelper.Security.ForContext<UserService>().Warning(
-                    $"A felhasználó hibás jelszóval próbált belépni.(Felhasználó Id: {user.Guid} : Felhasználónév: {user.UserName})");
+                    $"A felhasználó hibás jelszóval próbált belépni.(Felhasználó Id: {user.Guid} : Felhasználónév: {user.Email})");
                 LogHelper.Diagnostic.ForContext<UserService>().Error(
-                    $"A felhasználó hibás jelszóval próbált belépni.(Felhasználó Id: {user.Guid}:{user.UserName})");
+                    $"A felhasználó hibás jelszóval próbált belépni.(Felhasználó Id: {user.Guid}:{user.Email})");
                 throw new UnauthorizedAccessException("Hibás jelszó");
             }
 
             LogHelper.Security.ForContext<UserService>().Warning(
-                $"A felhasználó bejelentkezett a rendszerbe.(Felhasználó Id: {user.Guid} : Felhasználónév: {user.UserName})");
+                $"A felhasználó bejelentkezett a rendszerbe.(Felhasználó Id: {user.Guid} : Felhasználónév: {user.Email})");
             LogHelper.Activity.ForContext<UserService>().Information(
-                $"A felhasználó bejelentkezett a rendszerbe.(Felhasználó Id: {user.Guid} : Felhasználónév: {user.UserName})");
+                $"A felhasználó bejelentkezett a rendszerbe.(Felhasználó Id: {user.Guid} : Felhasználónév: {user.Email})");
 
             return _authService.GetToken(user);
         }

@@ -1,5 +1,6 @@
 namespace Restaurant.Api.Infrastructure.ContainerInitialize;
 
+using Controllers.BaseControllers;
 using Logic.IServices;
 using Logic.Services;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -18,6 +19,7 @@ public static class  ContainerInitializeServices
         services.AddAutoMapper(typeof(AutoMapper));
         services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddScoped<IAppContext, AppContext>();
+        services.AddScoped<BaseController>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<AuthService>();
     }

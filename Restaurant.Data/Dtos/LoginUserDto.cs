@@ -1,4 +1,4 @@
-﻿namespace FTBHungary.Data.Dtos;
+﻿namespace Restaurant.Data.Dtos;
 
 public class LoginUserDto
 {
