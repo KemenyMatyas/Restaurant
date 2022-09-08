@@ -1,6 +1,7 @@
 ﻿namespace Restaurant.Logic.Services;
 
 using AutoMapper;
+using BaseService;
 using Common.Exceptions;
 using Common.Logging;
 using Data.Dtos;
@@ -10,38 +11,31 @@ using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using IServices;
 using static BCrypt.Net.BCrypt;
-public class UserService : IUserService
+public class UserService : BaseService, IUserService
 {
-    private readonly RestaurantContext _dbContext;
-    private readonly IMapper _mapper;
-    private readonly AuthService _authService;
 
-    public UserService(RestaurantContext dbContext, IMapper mapper, AuthService authService)
+    public UserService(RestaurantContext dbContext, IMapper mapper, AuthService authService) : base(dbContext, mapper, authService)
     {
-        _dbContext = dbContext;
-        _mapper = mapper;
-        _authService = authService;
     }
-
     public async Task Register(RegisterUserDto registerUserDtoDto)
     {
         try
         {
             registerUserDtoDto.Password = HashPassword(registerUserDtoDto.Password);
-            var user = _mapper.Map<User>(registerUserDtoDto);
+            var user = Mapper.Map<User>(registerUserDtoDto);
             
             // set role as user
             user.UserRole = Role.User;
             
-            var userNameCheck = await _dbContext.Users
+            var userNameCheck = await DbContext.Users
                 .Where(x => x.Email == user.Email).SingleOrDefaultAsync();
             if (userNameCheck != null)
             {
                 throw new Exception("Felhasználónév foglalt");
             }
 
-            await _dbContext.Users.AddAsync(user);
-            await _dbContext.SaveChangesAsync();
+            await DbContext.Users.AddAsync(user);
+            await DbContext.SaveChangesAsync();
             LogHelper.Security.ForContext<UserService>().Warning($"A felhasználó regisztrált a rendszerbe.({user.Guid}:{user.Email})");
             LogHelper.Activity.ForContext<UserService>().Information($"A felhasználó regisztrált a rendszerbe.({user.Guid}:{user.Email})");
         }
@@ -68,7 +62,7 @@ public class UserService : IUserService
     {
         try
         {
-            var user = await _dbContext.Users
+            var user = await DbContext.Users
                 .Where(w =>w.Email == loginUserDto.UserName).SingleOrDefaultAsync();
             if (user == null)
             {
@@ -94,7 +88,7 @@ public class UserService : IUserService
             LogHelper.Activity.ForContext<UserService>().Information(
                 $"A felhasználó bejelentkezett a rendszerbe.(Felhasználó Id: {user.Guid} : Felhasználónév: {user.Email})");
 
-            return _authService.GetToken(user);
+            return AuthService.GetToken(user);
         }
         catch (BusinessException ex)
         {
@@ -114,4 +108,6 @@ public class UserService : IUserService
             throw new BusinessException(ex.Message, ex) {IsLogged = true};
         }
     }
+
+
 }
