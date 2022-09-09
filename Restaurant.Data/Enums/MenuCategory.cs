@@ -2,5 +2,6 @@
 
 public enum MenuCategory
 {
-    Food,Drink,
+    Food = 0,
+    Drink = 1,
 }

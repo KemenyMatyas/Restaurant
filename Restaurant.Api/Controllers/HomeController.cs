@@ -37,14 +37,14 @@ public class HomeController : BaseController
         return response;
     } 
     
-    [HttpGet("getMenuItemsPagination")]
-    public async Task<ApiResponseListDto<MenuItemDto>> GetMenuItemsPagination(MenuItemsFilterDto filter)
+    [HttpGet("getMenuItemsPaginationFilter")]
+    public async Task<ApiResponseListDto<MenuItemDto>> GetMenuItemsPaginationFilter([FromQuery] MenuItemsFilterDto filter)
     {
 
         var response = new ApiResponseListDto<MenuItemDto>();
         try
         {
-            var items = await _homeService.GetMenuItemsPagination(filter);
+            var items = await _homeService.GetMenuItemsPaginationFilter(filter);
             response.Data = items.Items.ToArray();
             response.IsSuccess = true;
             response.Error = string.Empty;
