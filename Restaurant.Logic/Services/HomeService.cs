@@ -26,5 +26,26 @@ public class HomeService : BaseService, IHomeService
         
         return menuItemsDto;
     }
-    
+
+    public async Task<ManuItemsPaginationDto> GetMenuItemsPagination(MenuItemsFilterDto filter)
+    {
+        var menuItems = await DbContext.MenuItems
+            .Include(i => i.Ingredients)
+            .ThenInclude(ti => ti.Ingredient)
+            .ToListAsync();
+        
+        
+        
+        var menuItemsPaged = menuItems
+            .Skip(filter.PageNumber * filter.PageSize)
+            .Take(filter.PageSize);
+
+        var menuItemsDto = menuItemsPaged.Select(menuItem => Mapper.Map<MenuItemDto>(menuItem)).ToList();
+        
+        return new ManuItemsPaginationDto
+        {
+            Total = menuItems.Count,
+            Items = menuItemsDto
+        };
+    }
 }

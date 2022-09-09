@@ -35,5 +35,28 @@ public class HomeController : BaseController
         }
         
         return response;
+    } 
+    
+    [HttpGet("getMenuItemsPagination")]
+    public async Task<ApiResponseListDto<MenuItemDto>> GetMenuItemsPagination(MenuItemsFilterDto filter)
+    {
+
+        var response = new ApiResponseListDto<MenuItemDto>();
+        try
+        {
+            var items = await _homeService.GetMenuItemsPagination(filter);
+            response.Data = items.Items.ToArray();
+            response.IsSuccess = true;
+            response.Error = string.Empty;
+            response.Total = items.Total;
+        }
+        catch (Exception ex)
+        {
+            response.IsSuccess = false;
+            response.Error = ex.Message;
+            response.Total = 0;
+        }
+        
+        return response;
     }
 }
