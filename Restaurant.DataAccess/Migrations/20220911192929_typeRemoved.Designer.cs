@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Restaurant.DataAccess;
@@ -11,9 +12,10 @@ using Restaurant.DataAccess;
 namespace Restaurant.DataAccess.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    partial class RestaurantContextModelSnapshot : ModelSnapshot
+    [Migration("20220911192929_typeRemoved")]
+    partial class typeRemoved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,14 +98,17 @@ namespace Restaurant.DataAccess.Migrations
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("MenuItemId")
+                    b.Property<Guid>("MenuId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MenuItemGuid")
                         .HasColumnType("uuid");
 
                     b.HasKey("Guid");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("MenuItemId");
+                    b.HasIndex("MenuItemGuid");
 
                     b.ToTable("CategoryMenu");
                 });
@@ -270,7 +275,7 @@ namespace Restaurant.DataAccess.Migrations
 
                     b.HasOne("Restaurant.Data.Models.MenuItem", "MenuItem")
                         .WithMany("Category")
-                        .HasForeignKey("MenuItemId")
+                        .HasForeignKey("MenuItemGuid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

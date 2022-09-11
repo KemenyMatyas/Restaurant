@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Restaurant.DataAccess;
@@ -11,9 +12,10 @@ using Restaurant.DataAccess;
 namespace Restaurant.DataAccess.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    partial class RestaurantContextModelSnapshot : ModelSnapshot
+    [Migration("20220911192457_enumsToObject")]
+    partial class enumsToObject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,14 +98,17 @@ namespace Restaurant.DataAccess.Migrations
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("MenuItemId")
+                    b.Property<Guid>("MenuId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MenuItemGuid")
                         .HasColumnType("uuid");
 
                     b.HasKey("Guid");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("MenuItemId");
+                    b.HasIndex("MenuItemGuid");
 
                     b.ToTable("CategoryMenu");
                 });
@@ -154,6 +159,33 @@ namespace Restaurant.DataAccess.Migrations
                     b.HasIndex("OderId");
 
                     b.ToTable("OrderMenuItem");
+                });
+
+            modelBuilder.Entity("Restaurant.Data.Models.ManyToMany.TypeMenu", b =>
+                {
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("MenuId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MenuItemGuid")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TypeId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Guid");
+
+                    b.HasIndex("MenuItemGuid");
+
+                    b.HasIndex("TypeId");
+
+                    b.ToTable("TypeMenu");
                 });
 
             modelBuilder.Entity("Restaurant.Data.Models.MenuItem", b =>
@@ -218,6 +250,24 @@ namespace Restaurant.DataAccess.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("Restaurant.Data.Models.Type", b =>
+                {
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Guid");
+
+                    b.ToTable("Types");
+                });
+
             modelBuilder.Entity("Restaurant.Data.Models.User", b =>
                 {
                     b.Property<Guid>("Guid")
@@ -270,7 +320,7 @@ namespace Restaurant.DataAccess.Migrations
 
                     b.HasOne("Restaurant.Data.Models.MenuItem", "MenuItem")
                         .WithMany("Category")
-                        .HasForeignKey("MenuItemId")
+                        .HasForeignKey("MenuItemGuid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -315,6 +365,25 @@ namespace Restaurant.DataAccess.Migrations
                     b.Navigation("MenuItem");
 
                     b.Navigation("Oder");
+                });
+
+            modelBuilder.Entity("Restaurant.Data.Models.ManyToMany.TypeMenu", b =>
+                {
+                    b.HasOne("Restaurant.Data.Models.MenuItem", "MenuItem")
+                        .WithMany("Type")
+                        .HasForeignKey("MenuItemGuid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Restaurant.Data.Models.Type", "Type")
+                        .WithMany("MenuItem")
+                        .HasForeignKey("TypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MenuItem");
+
+                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("Restaurant.Data.Models.Order", b =>
@@ -364,11 +433,18 @@ namespace Restaurant.DataAccess.Migrations
                     b.Navigation("Ingredients");
 
                     b.Navigation("OrderMenuItems");
+
+                    b.Navigation("Type");
                 });
 
             modelBuilder.Entity("Restaurant.Data.Models.Order", b =>
                 {
                     b.Navigation("OrderMenuItems");
+                });
+
+            modelBuilder.Entity("Restaurant.Data.Models.Type", b =>
+                {
+                    b.Navigation("MenuItem");
                 });
 #pragma warning restore 612, 618
         }

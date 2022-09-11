@@ -1,6 +1,7 @@
 ﻿namespace Restaurant.Data.Dtos;
 
 using Enums;
+using Models;
 
 public class MenuItemsFilterDto
 {
@@ -10,5 +11,5 @@ public class MenuItemsFilterDto
     public int PageSize { get; set; } = 10;
     
     public string Name { get; set; } = "";
-    public MenuCategory? Category { get; set; }
+    public Category? Category { get; set; }
 }

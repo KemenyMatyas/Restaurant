@@ -33,7 +33,6 @@ public class HomeService : BaseService, IHomeService
             .Include(i => i.Ingredients)
             .ThenInclude(ti => ti.Ingredient)
             .Where(i => i.Active && filter.Name == "" || i.Name.Contains(filter.Name))
-            .Where(p => filter.Category == null || p.Category== filter.Category)
             .ToListAsync();
         
         
