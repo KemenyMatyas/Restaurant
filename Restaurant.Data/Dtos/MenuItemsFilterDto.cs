@@ -11,5 +11,5 @@ public class MenuItemsFilterDto
     public int PageSize { get; set; } = 10;
     
     public string Name { get; set; } = "";
-    public Category? Category { get; set; }
+    public Guid CategoryID { get; set; }
 }

@@ -32,11 +32,11 @@ public class HomeService : BaseService, IHomeService
         var menuItems = await DbContext.MenuItems
             .Include(i => i.Ingredients)
             .ThenInclude(ti => ti.Ingredient)
-            .Where(i => i.Active && filter.Name == "" || i.Name.Contains(filter.Name))
+            .Include(i => i.Category)
+            .Where(i =>filter.CategoryID == Guid.Empty || (i.Active && i.Category.Guid == filter.CategoryID))
+            .Where(i => filter.Name == "" || (i.Name.Contains(filter.Name) && i.Category.Name.Contains(filter.Name)))
             .ToListAsync();
-        
-        
-        
+
         var menuItemsPaged = menuItems
             .Skip(filter.PageNumber * filter.PageSize)
             .Take(filter.PageSize);
