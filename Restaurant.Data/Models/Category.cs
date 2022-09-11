@@ -6,6 +6,6 @@ using ManyToMany;
 public class Category : EntityBase
 {
     public string Name { get; set; }
-    
-    public IList<CategoryMenu> MenuItem { get; set; }
+    public IList<MenuItem> MenuItems { get; set; }
+
 }

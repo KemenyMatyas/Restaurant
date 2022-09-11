@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Restaurant.DataAccess;
@@ -11,9 +12,10 @@ using Restaurant.DataAccess;
 namespace Restaurant.DataAccess.Migrations
 {
     [DbContext(typeof(RestaurantContext))]
-    partial class RestaurantContextModelSnapshot : ModelSnapshot
+    [Migration("20220911193823_categoryManyToOne")]
+    partial class categoryManyToOne
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,11 +59,16 @@ namespace Restaurant.DataAccess.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
+                    b.Property<Guid?>("MenuItemGuid")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Guid");
+
+                    b.HasIndex("MenuItemGuid");
 
                     b.ToTable("Categories");
                 });
@@ -141,9 +148,6 @@ namespace Restaurant.DataAccess.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid>("CategoryGuid")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
@@ -156,8 +160,6 @@ namespace Restaurant.DataAccess.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Guid");
-
-                    b.HasIndex("CategoryGuid");
 
                     b.ToTable("MenuItems");
                 });
@@ -241,6 +243,13 @@ namespace Restaurant.DataAccess.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Restaurant.Data.Models.Category", b =>
+                {
+                    b.HasOne("Restaurant.Data.Models.MenuItem", null)
+                        .WithMany("Category")
+                        .HasForeignKey("MenuItemGuid");
+                });
+
             modelBuilder.Entity("Restaurant.Data.Models.ManyToMany.IngredientMenuItem", b =>
                 {
                     b.HasOne("Restaurant.Data.Models.Ingredient", "Ingredient")
@@ -279,17 +288,6 @@ namespace Restaurant.DataAccess.Migrations
                     b.Navigation("Oder");
                 });
 
-            modelBuilder.Entity("Restaurant.Data.Models.MenuItem", b =>
-                {
-                    b.HasOne("Restaurant.Data.Models.Category", "Category")
-                        .WithMany("MenuItems")
-                        .HasForeignKey("CategoryGuid")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
             modelBuilder.Entity("Restaurant.Data.Models.Order", b =>
                 {
                     b.HasOne("Restaurant.Data.Models.User", "Costumer")
@@ -320,11 +318,6 @@ namespace Restaurant.DataAccess.Migrations
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("Restaurant.Data.Models.Category", b =>
-                {
-                    b.Navigation("MenuItems");
-                });
-
             modelBuilder.Entity("Restaurant.Data.Models.Ingredient", b =>
                 {
                     b.Navigation("MenuItems");
@@ -332,6 +325,8 @@ namespace Restaurant.DataAccess.Migrations
 
             modelBuilder.Entity("Restaurant.Data.Models.MenuItem", b =>
                 {
+                    b.Navigation("Category");
+
                     b.Navigation("Ingredients");
 
                     b.Navigation("OrderMenuItems");
