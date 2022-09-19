@@ -16,8 +16,9 @@ public class HomeMapper : Profile
             .ForMember(dto => dto.Name, m =>
             m.MapFrom(i => i.Ingredient.Name))
             .ForMember(dto => dto.Guid, m =>
-                m.MapFrom(i => i.Ingredient.Guid))
-            ;
+                m.MapFrom(i => i.Ingredient.Guid));
+
+        CreateMap<Category, CategoryDto>().ReverseMap();
 
     }
 }

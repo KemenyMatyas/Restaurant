@@ -59,4 +59,27 @@ public class HomeController : BaseController
         
         return response;
     }
+    
+    [HttpGet("getCategories")]
+    public async Task<ApiResponseListDto<CategoryDto>> GetCategories()
+    {
+
+        var response = new ApiResponseListDto<CategoryDto>();
+        try
+        {
+            var items = await _homeService.GetCategories();
+            response.Data = items.ToArray();
+            response.IsSuccess = true;
+            response.Error = string.Empty;
+            response.Total = items.Count();
+        }
+        catch (Exception ex)
+        {
+            response.IsSuccess = false;
+            response.Error = ex.Message;
+            response.Total = 0;
+        }
+        
+        return response;
+    }
 }

@@ -49,4 +49,10 @@ public class HomeService : BaseService, IHomeService
             Items = menuItemsDto
         };
     }
+
+    public async Task<IList<CategoryDto>> GetCategories()
+    {
+        var categories = await DbContext.Categories.ToListAsync();
+        return categories.Select(c => Mapper.Map<CategoryDto>(c)).ToList();
+    }
 }

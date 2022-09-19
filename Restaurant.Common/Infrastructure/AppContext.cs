@@ -10,7 +10,6 @@ public sealed class AppContext : IAppContext
     public AppContext(IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
-
     }
 
 
