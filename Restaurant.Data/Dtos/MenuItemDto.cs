@@ -10,6 +10,6 @@ public class MenuItemDto : DtoBase
     public string Name { get; set; }
     public string Description { get; set; }
     public int Price { get; set; }
-    public Category Category { get; set; }
+    public CategoryDto Category { get; set; }
     public List<IngredientDto> Ingredients { get; set; }
 }

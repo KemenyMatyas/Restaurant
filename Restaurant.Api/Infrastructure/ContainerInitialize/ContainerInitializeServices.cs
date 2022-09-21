@@ -1,5 +1,6 @@
 namespace Restaurant.Api.Infrastructure.ContainerInitialize;
 
+using System.Text.Json.Serialization;
 using Controllers.BaseControllers;
 using Logic.BaseService;
 using Logic.IServices;
@@ -25,5 +26,7 @@ public static class  ContainerInitializeServices
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<AuthService>();
         services.AddScoped<IHomeService, HomeService>();
+        services.AddControllers().AddJsonOptions(x =>
+            x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
     }
 }
